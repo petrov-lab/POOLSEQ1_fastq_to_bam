@@ -18,7 +18,7 @@ if [ ! -e $refDict ]; then
 fi
 
 #re-align bam
-newbam=$(echo $bam | sed 's/.bam/.realign.bam/')
+newbam=$(echo $bam | sed 's/.bam$/.realign.bam/')
 java -jar $gatkDir/GenomeAnalysisTK.jar -T IndelRealigner -R $refFasta -I $bam -targetIntervals $intervals -o $newbam --filter_mismatching_base_and_quals
 samtools index $newbam
 

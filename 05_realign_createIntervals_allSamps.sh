@@ -3,6 +3,8 @@
 bamDir=$1
 threads=$2
 ref=${3:-dmel}
+intervalFile=${4:-$bamDir/allSamps.intervals}
+
 refFasta=$($(dirname $0)/get_ref_fasta.sh $ref)
 if [ -e $refFasta ]; then echo "using $refFasta as reference"; else echo "reference fasta not found; exiting"; exit 1; fi
 gatkDir=/home/groups/dpetrov/SOFTWARE/bin/
@@ -24,6 +26,6 @@ done
 
 #make target indel file
 java -jar $gatkDir/GenomeAnalysisTK.jar -T RealignerTargetCreator -R $refFasta -nt $threads \
- -o $bamDir/allSamps.intervals \
+ -o $intervalFile \
 $inputString 
 

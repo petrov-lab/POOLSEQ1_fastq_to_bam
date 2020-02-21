@@ -18,5 +18,11 @@ samp=$(basename $bam | sed 's/.bam//')
 samtools depth -b $bed $bam > ${bam}.cov
 cat $bam.cov | awk -v samp="$samp" '
 { cov[$1]=cov[$1]+$3; sites[$1]++} 
-END { print samp"\t"cov["2L"]/sites["2L"]"\t"cov["2R"]/sites["2R"]"\t"cov["3L"]/sites["3L"]"\t"cov["3R"]/sites["3R"]"\t"cov["X"]/sites["X"]}
+END {print(samp);
+	n=asorti(sites, sorted)
+	for (i=1; i<=n; i++) {
+        	print sorted[i] "\t" cov[sorted[i]]/sites[sorted[i]]
+	}
+}
+#END { print samp"\t"cov["2L"]/sites["2L"]"\t"cov["2R"]/sites["2R"]"\t"cov["3L"]/sites["3L"]"\t"cov["3R"]/sites["3R"]"\t"cov["X"]/sites["X"]}
 ' > $bam.cov.chromMeans
